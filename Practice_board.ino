@@ -1,26 +1,30 @@
-//Simple VEX Pro Victor 888 Driver
+#define pwm = 3;
+#define slider = A0;
+#define compressor = 5;
+#define pressSense = 6
 
-unsigned short pin = 9;
 
 signed int dutyCycle = 0; 
 double highus = 1500;
 double lowus = 1000;
+double power = 512;
 
-void setup() {pinMode(A0, INPUT);
- pinMode(pin, OUTPUT); 
- digitalWrite(pin, LOW);
- pinMode(A0, INPUT);
- pinMode(13, OUTPUT);
- digitalWrite(13, HIGH);
- Serial.begin(9600);
+void setup() {
+  pinMode(slider, INPUT);
+  pinMode(pwm, OUTPUT); 
+  pinMode(slider, INPUT);
+  pinMode(compressor, OUTPUT);
+  pinMode(pressSense, INPUT_PULLUP);
+  digitalWrite(pin, LOW);
+  Serial.begin(9600);
 }
 
 void loop() {
-  double power = analogRead(A0);
+  double power = analogRead(slider);
   Serial.println(power);
   highus = map(power, 0, 1024, 1000, 2000);
-  digitalWrite(pin, HIGH);
+  digitalWrite(pwm, HIGH);
   delayMicroseconds(highus);
-  digitalWrite(pin, LOW);
-  delayMicroseconds(5000-highus);
+  digitalWrite(pwm, LOW);
+  delayMicroseconds(2500-highus);
 }
